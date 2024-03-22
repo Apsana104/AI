@@ -1,0 +1,63 @@
+j1=int(input('enter jug1 capacity'))
+j2=int(input('enter jug2 capacity'))
+r=int(input('enter amount of water to be obtain: '))
+def dis():
+    print('enter the rule')
+    print('rule 1: fill jug1')
+    print('rule 2: fill jug2')
+    print('rule 3: empty jug1')
+    print('rule 4: empty jug2')
+    print('rule 5: transfer all water from  jug2 to jug1')
+    print('rule 6: transfer all water from jug1 to  jug2')
+dis()
+
+def apply_rule(rule,ju1,ju2):
+    if rule==1:
+        ju1=j1
+    elif rule==2:
+        ju2=j2
+    elif rule==3:
+        ju1=0
+    elif rule==4:
+        ju2=0
+    elif rule==5:
+        temp=j1-ju1
+        if temp<ju2:
+            ju2=ju2-temp
+            ju1+=temp
+        else :
+            ju1+=ju2
+            ju2=0
+    elif rule==6:
+        temp=j2-ju2
+        if temp>ju1:
+            ju2+=ju1
+            ju1=0
+        else:
+            ju1=ju1-temp
+            ju2=ju2+temp
+    else:
+        print('invalid choice')
+    return ju1,ju2
+def bfs(j1,j2,r):
+    ju1=ju2=0
+    se=[[0,0]]
+    i=0
+    x1=y1=0
+    while(i<len(se)):
+        t=[]
+        x,y=se[i][0],se[i][1]
+        if se[len(se)-1][0]==r or  se[len(se)-1][1]==r:
+            print("goal reached")
+            break
+        for j in [1,2,3,4,5,6]:
+            x1,y1=apply_rule(j,x,y)
+            t=[x1,y1]
+            if t not in se:
+                se.append(t)
+                print(t,'\n')
+            if x1==r or y1==r:
+                break
+        i=i+1
+    print(se)
+bfs(j1,j2,r)        
